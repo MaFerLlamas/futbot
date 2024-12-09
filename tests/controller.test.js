@@ -1,17 +1,17 @@
 const { flatTextForSearch, extractUser } = require('../controller');
 
-test.skip('Test flatTextForSearch that should convert a string to lower case', () => {
+test('Test flatTextForSearch that should convert a string to lower case', () => {
     let lowerCaseText = flatTextForSearch("Hola FUTBot RegisTrame");
     expect(lowerCaseText).toEqual("hola futbot registrame");
 });
 
 
-test.skip('Test Extract Text, we need for @Mafer to return Mafer', () => {
+test('Test Extract Text, we need for @Mafer to return Mafer', () => {
     let extractedName = extractUser("futbot registrame @Mafer", false);
     expect(extractedName).toEqual("Mafer");
 });
 
-test.skip('Test Extract Text, Behavior when @ is not coming in the user', () => {
+test('Test Extract Text, Behavior when @ is not coming in the user', () => {
     let extractedName = extractUser("futbot registrame Mafer", false);
     expect(extractedName).toEqual("");
 });

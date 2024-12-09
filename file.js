@@ -16,15 +16,16 @@ function read(fileName){
 
 // Write to a file asynchronously
 
-function write(fileName,content){
-    content = '- '+ content + '\n'
-    fs.appendFile(fileName, content, err => {
-        if (err) {
-            console.error('Error writing to the file:', err);
-            return;
-        }
+function writeLine(fileName, content){
+    content = content + '\n'
+    try {
+        fs.appendFileSync(fileName, content);
         console.log('File has been written successfully!');
-    });
+        return true;
+    } catch (err) {
+        console.error('Error writing to the file:', err);
+        return false;
+    }
 }
 
 function findTextInFile(fileName, searchText) {
@@ -69,6 +70,36 @@ function replaceLineInFile(fileName, lineNumber, newText) {
     return 'Line replaced successfully.';
 }
 
+function deleteLine(fileName, lineNumber) {
+    try {
+        // Read the file contents
+        const fileContent = fs.readFileSync(fileName, 'utf-8');
+
+        // Split the file contents into lines
+        const lines = fileContent.split('\n');
+
+        // Check if the line number is valid
+        if (lineNumber < 0 || lineNumber >= lines.length) {
+            console.error('Invalid line number');
+            return false;
+        }
+
+        // Remove the specified line
+        lines.splice(lineNumber, 1);
+
+        // Join the lines back into a single string
+        const updatedContent = lines.join('\n');
+
+        // Write the updated content back to the file
+        fs.writeFileSync(fileName, updatedContent, 'utf-8');
+
+        console.log(`Line ${lineNumber + 1} has been deleted successfully.`);
+        return true;
+    } catch (err) {
+        console.error('Error processing the file:', err);
+        return false;
+    }
+}
 
 function transformFileToJson(inputFile) {
     // Read the entire file content synchronously
@@ -124,6 +155,7 @@ module.exports = {
     findTextInFile,
     transformFileToJson,
     replaceLineInFile,
-    write,
-    read
+    writeLine,
+    read,
+    deleteLine
 };

@@ -18,46 +18,42 @@ client.on('ready', () => {
     console.log('Client is ready!');
 });
 
+// RECIBIENDO MENSAJE
 client.on('message', async message => {
     var userFoundAt = 0;
     var users = {};
-    // Check if the message is from a group
+    // Checamos si es de los grupos permitidos
     //console.log(`from: ${message.from}`)
     if (groupIds.includes(message.from)) { // Group IDs start with 'g'
 
         console.log(`Group message received: ${message.body}`);
         console.log(`Author: ${message.author}`);
         //onst senderInfo = await client.getContact(senderId); // Get contact info
-
-        if (flatTextForSearch(message.body) === 'si' ) {
-            //users = loadUsers();
-            userFoundAt = searchUser(extractUser(message.author, true));
-            if (userFoundAt == 0){
-                client.sendMessage(message.from, 'Registrate por ejemplo: \nfutbot registrame @mafer');
-            }else {
-                client.sendMessage(message.from, ` anotada`);
-            }
-
-        }
-
-        if (flatTextForSearch(message.body).startsWith('futbot registrame')) {
-            // send back "pong" to the chat the message was sent in
+        
+        if (message.body.startsWith('futbot chingas a tu madre')) {
+            client.sendMessage(message.from, 'chinga la tuya');
+        } else if (flatTextForSearch(message.body).startsWith('futbot anotame')) {
             username = extractUser(message.body);
             userFoundAt = searchUser(message.author);
             if (userFoundAt > 0 ){
-                //Update User
+                //Actualizamos user
                 //replaceUser(userFoundAt, `- ${message.author}: ${username}`);
             }else{
-                //Create User
-                //write(usersFile,`- ${message.author}: ${username}`);
+                write(usersFile,`- ${message.author}: ${username}`);
             }
             client.sendMessage(message.from, 'registrada');
+        } else if (flatTextForSearch(message.body).startsWith('futbot') ) {
+            //users = loadUsers();
+            userFoundAt = searchUser(extractUser(message.author, true));
+            if (userFoundAt == 0){
+                client.sendMessage(message.from, 'Wey ni te topo');
+                client.sendMessage(message.from, 'Registrate por ejemplo: \nfutbot anotame @mafer');
+            }else {
+                //client.sendMessage(message.from, ` anotada`);
+                console.log(`reconozida:`);
+            }
         }
 
-        if (message.body.startsWith('futbot chingas a tu madre')) {
-            // send back "pong" to the chat the message was sent in
-            client.sendMessage(message.from, 'chinga la tuya');
-        }
     }else{
         console.log(`from ${message.from}: ${message.body}`)
     }

@@ -53,6 +53,11 @@ function flatTextForSearch(text){
     return text.toLowerCase();
 }
 
+function addUser(Id, username){
+    write(usersFile,`- ${Id}: ${username}`);
+
+} 
+
 module.exports = {
     flatTextForSearch,
     extractUser,
